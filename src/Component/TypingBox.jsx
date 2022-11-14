@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { useRef } from 'react';
 function TypingBox({words}) {
   const inputTextReff=useRef(null);
   return (
