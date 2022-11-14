@@ -1,11 +1,15 @@
 import { createGlobalStyle } from "styled-components";
 export const GlobalStyles=createGlobalStyle`
+*,*::after,*::before{
+    box-sizing:border-box;
+}
     body{
-        background:red;
+        background:black;
         color:white;
         padding:0;
         margin:0;
-        transition:all 0.25s;
+        transition:all 0.25s linear;
+        
     }
     .canvas{
         display:grid;
@@ -14,7 +18,31 @@ export const GlobalStyles=createGlobalStyle`
         min-height:100vh;
         gap:0.5rem;
         padding:1rem;
-        width:1rem;
+        width:100vw;
+        align-items:center;
     }
-
+    .type-box{
+        background-color:black;
+        display:block;
+        max-width:1000px;
+        height:150px;
+        position:relaive;
+        margin-left:auto;
+        margin-right:auto;
+        overflow:hidden;
+    }
+    .words{
+        font-size:30px;
+        display:flex;
+        flex-wrap:wrap;
+        align-content:center;
+        width:100%;
+    }
+    .word{
+        margin:5px;
+        padding-right:2px;
+    }
+    .hidden-input{
+        opacity:0;
+    }
 `

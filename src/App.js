@@ -1,16 +1,15 @@
 import logo from './logo.svg';
-import './App.css';
 import { GlobalStyles } from './Styles/global';
 import TypingBox from './Component/TypingBox';
 var randomwords=require('random-words');
 function App() {
-  const words=randomwords;
+  const words=randomwords(100);
   return (
     <div className="canvas">
       <GlobalStyles/>
-      <h1>Typing Test</h1>
+      <h1 style={{"textAlign":'center'}}>Typing Test</h1>
       <TypingBox words={words}/>
-      <h1>Footer</h1>
+      <h1 style={{"textAlign":'center'}}>Footer</h1>
     </div>
   );
 }
