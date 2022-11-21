@@ -6,15 +6,30 @@ function TypingBox({words}) {
   const [currentwordIndex,setCurrentwordIndex]=useState(0);
   const [currentCharIndex,setCurrentCharIndex]=useState(0);
   const wordSpanRef=Array(words.length).fill(0).map(i=>createRef(null));
+  const [countDown,setCountDown]=useState(15);
+  const [testStart, setTestStart] = useState(false);
 
+  const typingTimer=()=>{
+    const intervalId=setInterval(timer,1000);
+    function timer(){
+      console.log("afdsaffsadfdsaffdsadfafadfasfasfaff");
+      setCountDown(countDown-1);
+     
+    }
+  }
 
-  
 
 
 
 
   // console.log("wordSpanRef",wordSpanRef);
   const handleKeyDown=(e)=>{
+    if(!testStart){
+      typingTimer();
+      setTestStart(true);
+    }
+    
+    
     let allChildrenSpans=wordSpanRef[currentwordIndex].current.querySelectorAll('span');
     // console.log("key",e);
     console.log(" currentwordIndex:",currentwordIndex,", currentCharIndex: ",currentCharIndex);
@@ -117,6 +132,8 @@ useEffect(()=>{
 console.log("---------------------------");
   return (
     <>
+    
+    <h1>{countDown}</h1>
     <div className="type-box" onClick={foucusInput}>
         <div className="words">
            {words.map((word,index)=>(
