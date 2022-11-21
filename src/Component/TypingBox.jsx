@@ -6,55 +6,59 @@ function TypingBox({words}) {
   const [currentwordIndex,setCurrentwordIndex]=useState(0);
   const [currentCharIndex,setCurrentCharIndex]=useState(0);
   const wordSpanRef=Array(words.length).fill(0).map(i=>createRef(null));
-  const [countDown,setCountDown]=useState(15);
+  let [countDown,setCountDown]=useState(15);
   const [testStart, setTestStart] = useState(false);
+  const [testOver,setTestOver]=useState(false);
+  console.log(countDown);
+  let timeCount=15;
+  // const typingTimer=()=>{
+  //   const intervalId=setInterval(timer,1);
+  //   function timer(){
+  //     setCountDown(countDown--);
+  //     if(countDown<0){
+  //       clearInterval(intervalId);
+  //     }
+     
+  //   }
+  // }
 
   const typingTimer=()=>{
     const intervalId=setInterval(timer,1000);
     function timer(){
-      console.log("afdsaffsadfdsaffdsadfafadfasfasfaff");
-      setCountDown(countDown-1);
-     
+      setCountDown(prev=>{
+        if(prev===1){
+          clearInterval(intervalId);
+          setCountDown(0);
+          setTestOver(true)
+        }else{
+          return prev-1;
+        }
+      })
     }
   }
+  
 
 
-
-
-
-  // console.log("wordSpanRef",wordSpanRef);
   const handleKeyDown=(e)=>{
+    
     if(!testStart){
       typingTimer();
       setTestStart(true);
     }
     
-    
     let allChildrenSpans=wordSpanRef[currentwordIndex].current.querySelectorAll('span');
-    // console.log("key",e);
-    console.log(" currentwordIndex:",currentwordIndex,", currentCharIndex: ",currentCharIndex);
+   
 
     if(e.keyCode===32){    
       console.log("space");
 
       if(allChildrenSpans.length<=currentCharIndex){
-        console.log("hellow");
         allChildrenSpans[currentCharIndex-1].classList.remove('right');
-        
       }else{
-        console.log("dfja;sd", allChildrenSpans[currentCharIndex].innerText);
         allChildrenSpans[currentCharIndex].className=allChildrenSpans[currentCharIndex].className.replace('current','');
       }
-      setCurrentwordIndex(()=>{
-        console.log("set current word index");
-        return currentwordIndex+1;
-      });
-      console.log(" currentwordIndex:",currentwordIndex,", currentCharIndex: ",currentCharIndex);
-      setCurrentCharIndex(()=>{
-        console.log("change char Index to 0",currentCharIndex);
-        
-        return 0;
-      });
+      setCurrentwordIndex(currentwordIndex+1);
+      setCurrentCharIndex(0);
       return ;
     }
     console.log(e.keyCode,"code");
@@ -64,7 +68,6 @@ function TypingBox({words}) {
       if(currentCharIndex!=0){
           
         if(currentCharIndex===allChildrenSpans.length){
-          console.log('back space',currentCharIndex);
           if(allChildrenSpans[currentCharIndex-1].className.includes('extra')){
             allChildrenSpans[currentCharIndex-1].remove();
             allChildrenSpans[currentCharIndex-2].className+=' right';
@@ -77,7 +80,7 @@ function TypingBox({words}) {
           allChildrenSpans[currentCharIndex].className='char';
           allChildrenSpans[currentCharIndex-1].className='char current';
           setCurrentCharIndex(currentCharIndex-1);
-     
+
       }
 
       return;
@@ -97,12 +100,10 @@ function TypingBox({words}) {
     // console.log(allChildrenSpans,"all children");  
     console.log("current",wordSpanRef[currentwordIndex].current.innerText);  
     console.log("current",wordSpanRef[currentwordIndex]);  
-    console.log("key pressed",e.key);  
+
     if(e.key===allChildrenSpans[currentCharIndex].innerText){
-      console.log("user pressed currect");
       allChildrenSpans[currentCharIndex].className="char correct";
     }else{
-      console.log("not current");
       allChildrenSpans[currentCharIndex].className="char not_correct";
     }
     
@@ -111,14 +112,8 @@ function TypingBox({words}) {
     }else{
     allChildrenSpans[currentCharIndex+1].className='char current';
     }
-    setCurrentCharIndex(()=>{
-      console.log("current char index update",currentCharIndex);
-      console.log("sett current Char");
-      return currentCharIndex+1;
-    });
-    // setTimeout(() => {
-    //   console.log(currentCharIndex);
-    // }, 1);
+    setCurrentCharIndex(currentCharIndex+1);
+    
   }
 
 const foucusInput=()=>{
@@ -133,19 +128,24 @@ console.log("---------------------------");
   return (
     <>
     
-    <h1>{countDown}</h1>
+   {(!testOver)?
+    (<><h1>{countDown}</h1>
     <div className="type-box" onClick={foucusInput}>
-        <div className="words">
-           {words.map((word,index)=>(
-            <span className='word' key={index} ref={wordSpanRef[index]} >
+    <div className="words">
+       {words.map((word,index)=>(
+        <span className='word' key={index} ref={wordSpanRef[index]} >
 
-              {word.split("").map((char,idx)=>(
-                <span className='char' key={ `${char+idx}`}>{char}</span>
-              ))}
-            </span>
-           ))}
-        </div>
+          {word.split("").map((char,idx)=>(
+            <span className='char' key={ `${char+idx}`}>{char}</span>
+          ))}
+        </span>
+       ))}
     </div>
+</div></>)
+
+    :     ( <h1 style={{textAlign:"center"}}>Test Over</h1>)}
+    
+   
     <input type="text" className='hidden-input' ref={inputTextRef}
       onKeyDown={((e)=>handleKeyDown(e))}
     />
