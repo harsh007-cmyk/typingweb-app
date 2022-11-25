@@ -69,3 +69,46 @@
 // }
 
 // export default Set
+
+// import React from "react";
+// import axios from "axios";
+// function App() {
+//   const [image, setImage] = React.useState();
+//   const [resfesh, setRefresh] = React.useState(1);
+//   React.useEffect(() => {
+//     axios
+//       .get(`https://dog.ceo/api/breeds/image/random`)
+//       .then((response) => setImage(response.data.message));
+//   }, [resfesh]);
+//   console.log("image", image);
+//   return <div>
+//     <button onClick={() => {
+//       setRefresh(resfesh + 1)
+//     }}>next</button>
+//     <img src={image} alt="" />
+//   </div>;
+// }
+
+// export default App;
+// import './App.css'
+// import {useState} from 'react'
+// export default function App() {
+//   const [image, setImage] = useState("")
+   
+
+//   async function getApi(url){
+//     const res=await fetch(url);
+//     var data=await res.json();
+//     console.log(data);
+//     setImage(data.message);
+//   }
+  
+//    return (
+//      <div className="App">
+//        <img src={image} />
+//       <button onClick={()=>{
+//        getApi('https://dog.ceo/api/breeds/image/random')
+//       }}>Show Image</button>
+//      </div>
+//     );
+// }
