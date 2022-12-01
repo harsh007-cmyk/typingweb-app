@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { useTestMode } from '../Context/TestMode';
 import Stat from './Stat';
 var randomwords=require('random-words');
-function TypingBox({}) {
+function TypingBox() {
   const inputTextRef=useRef(null);
   const [currentwordIndex,setCurrentwordIndex]=useState(0);
   const [currentCharIndex,setCurrentCharIndex]=useState(0);
@@ -12,9 +12,13 @@ function TypingBox({}) {
   const [correctWords,setCorrectWords]=useState(0);
   let [countDown,setCountDown]=useState(15);
   const [testStart, setTestStart] = useState(false);
+   const [incorrectChars, setincorrectChars] = useState(0);
+  const [extraChars, setExtraChars] = useState(0);
+  const [missedChars, setMissedChars] = useState(0);
   const [testOver,setTestOver]=useState(false);
   const {testTime}=useTestMode();
   const[intervalId,setIntervalId]=useState(null);
+  const [graphDatas,setGraphData]=useState([]);
   
 
   const [wordsArray,setWordArray]=useState(()=>{
@@ -48,13 +52,19 @@ function TypingBox({}) {
     const intervalId=setInterval(timer,1000);
     setIntervalId(intervalId);
     function timer(){
-      setCountDown(prev=>{
-        if(prev===1){
+      setCountDown(countDown=>{
+        setCorrectChars((correctChars)=>{
+          setGraphData((data)=>{
+            return [...data,[testTime-countDown,Math.round((correctChars/5))/(testTime-countDown+1)/60]]
+          })
+          return correctChars;
+        })
+        if(countDown===1){
           clearInterval(intervalId);
           setCountDown(0);
           setTestOver(true)
         }else{
-          return prev-1;
+          return countDown-1;
         }
       })
     }
@@ -75,8 +85,12 @@ function TypingBox({}) {
       if(e.keyCode===32){    
         
         const correctChars=wordSpanRef[currentwordIndex].current.querySelectorAll('.correct');
+        const incorrectChars=wordSpanRef[currentwordIndex].current.querySelectorAll('.not_correct');
+        setMissedChars(missedChars+(allChildrenSpans.length-(correctChars.length+incorrectChars.length)));
         if(correctChars.length===allChildrenSpans.length){
+          console.log('fasdfa');
           setCorrectWords(correctWords+1);
+
         }
 
 
@@ -121,6 +135,7 @@ function TypingBox({}) {
         allChildrenSpans[currentCharIndex-1].className=allChildrenSpans[currentCharIndex-1].className.replace('right','');
         wordSpanRef[currentwordIndex].current.append(newSpan);
         setCurrentCharIndex(currentCharIndex+1);
+        setExtraChars(extraChars+1);
         return;
       }
 
@@ -130,6 +145,7 @@ function TypingBox({}) {
         setCorrectChars(correctChars+1);
       }else{
         allChildrenSpans[currentCharIndex].className="char not_correct";
+        setincorrectChars(incorrectChars+1);
       }
       
       if(currentCharIndex+1===allChildrenSpans.length){
@@ -145,7 +161,14 @@ function TypingBox({}) {
 
 
 const calculateAccuracy=()=>{
-    return Math.round((correctWords/currentwordIndex)*100)
+  
+  console.log((correctWords/currentwordIndex)*100);
+    let acc=(correctWords/currentwordIndex)*100;
+    if(typeof(acc)!==Number){
+      console.log('truedd');
+      return 0;
+    }
+    return Math.round((Number(correctWords)/Number(currentwordIndex))*100)
 }
 
 const calculateWPM=()=>{
@@ -188,7 +211,7 @@ useEffect(()=>{
   return (
     <div>
    
-   {(testOver)? (<Stat WPM={calculateWPM()} accuracy={calculateAccuracy()}/>):
+   {(testOver)? (<Stat WPM={calculateWPM()} accuracy={calculateAccuracy()} graphData={graphDatas} correctChars={correctChars} incorrectChars={incorrectChars} extraChars={extraChars} missedChars={missedChars}/>):
     (<>
      <UpperMenu countDown={countDown}/>
     <div className="type-box" onClick={foucusInput}>
