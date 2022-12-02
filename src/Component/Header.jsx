@@ -6,7 +6,7 @@ function Header() {
     <div className="header">
         <div className="logo" style={{display:'flex'}}>
             <span style={{display:'block',marginRigth:'6px'}}>
-              Logo
+              Typing Test
             </span>
         </div>
         <div className="icons">

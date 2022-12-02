@@ -14,10 +14,10 @@ import Alert from './Component/Alert';
 
 
 function App() {
-  
-  const{theme}= useTheme();   
+  const {theme}=useTheme();   
   return (
     <>
+    <ThemeProvider theme={useTheme()}></ThemeProvider>
     <Alert/>
     <Routes>
        <Route path='/' element={<HomePage/>}></Route>

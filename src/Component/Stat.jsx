@@ -16,7 +16,8 @@ function Stat({WPM,accuracy,graphData,correctChars,incorrectChars,extraChars,mis
   })
   const pushResultsToDB=async()=>{
     const resultRef=db.collection('Results');
-    const{uid}=auth.currentUser;
+    console.log(resultRef,'resultRef');
+    const {uid}=auth.currentUser;  
     if(!isNaN(accuracy)){
       await resultRef.add({userId:uid,wpm:WPM,accuracy:accuracy,character:`${correctChars}/${missedChars}/${extraChars}`,timeStamp:new Date()}).then(
         (res)=>{
@@ -58,7 +59,7 @@ function Stat({WPM,accuracy,graphData,correctChars,incorrectChars,extraChars,mis
         <RestartAltIcon onClick={retest}/>
     </div>
     <div className="right-stats">
-        <Graph graphData={newGraph}/>
+        <Graph graphData={newGraph}/>  
     </div>
     </div>
   )
