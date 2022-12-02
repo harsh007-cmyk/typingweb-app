@@ -5,6 +5,7 @@ import { useAlert } from '../Context/AlertContext';
 import { useTheme } from '../Context/ThemeContext';
 import {auth} from '../firebaseConfig';
 import errorMapping from '../Utils/Error';
+
 function LoginForm({handleClose}) {
     const{theme}=useTheme();
     const [email,setEmail]=useState('');

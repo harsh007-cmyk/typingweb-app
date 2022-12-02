@@ -4,8 +4,10 @@ import AccountIcon from './AccountIcon'
 function Header() {
   return (
     <div className="header">
-        <div className="logo">
-            
+        <div className="logo" style={{display:'flex'}}>
+            <span style={{display:'block',marginRigth:'6px'}}>
+              Logo
+            </span>
         </div>
         <div className="icons">
         <AccountIcon/>

@@ -132,15 +132,18 @@ export const GlobalStyles=createGlobalStyle`
         padding:30px;
     }
     .right-stats{
-        width:60%;
+        width:70%;  
     }
     .footer{
         display:flex;
         width:1000px;
-        margin-auto:auto;
-        margin-auto:auto;
+        margin-right:auto;
+        margin-left:auto;
         justify-content:space-between;
         height:60px;
-        
+    }
+    .header{
+        display:flex;
+        justify-content:space-around;
     }
 `

@@ -14,7 +14,7 @@ import Alert from './Component/Alert';
 
 
 function App() {
-console.log(auth);
+  
   const{theme}= useTheme();   
   return (
     <>

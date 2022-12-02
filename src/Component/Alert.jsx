@@ -1,7 +1,7 @@
-import { Slide,Snackbar } from '@mui/material'
+import { Slide,Snackbar,Alert } from '@mui/material'
 import React from 'react'
 import {useAlert} from '../Context/AlertContext';
-function Alert() {
+function AlertSnackbar() {
     const {alert,setAlert}=useAlert();
     const handleClose=(e,reason)=>{
         if(reason==='clickaway'){
@@ -31,4 +31,4 @@ function Alert() {
   )
 }
 
-export default Alert;
+export default AlertSnackbar;

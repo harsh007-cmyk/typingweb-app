@@ -31,10 +31,9 @@ function TypingBox() {
  
 
   const wordSpanRef=useMemo(()=>{
-    console.log("refenter")
+
     return Array(words.length).fill(0).map(i=>createRef(null));
   },[words]);
-  console.log(wordSpanRef);
   
   const resetWordSpanRefClassNames=()=>{
     wordSpanRef.map(i=>{
@@ -164,11 +163,7 @@ const calculateAccuracy=()=>{
   
   console.log((correctWords/currentwordIndex)*100);
     let acc=(correctWords/currentwordIndex)*100;
-    if(typeof(acc)!==Number){
-      console.log('truedd');
-      return 0;
-    }
-    return Math.round((Number(correctWords)/Number(currentwordIndex))*100)
+   return acc;
 }
 
 const calculateWPM=()=>{
@@ -196,7 +191,7 @@ const resetTest=()=>{
   setCountDown(testTime);
   let random=randomwords(100);
   setWordArray(random);
-  // resetWordSpanRefClassNames();
+  resetWordSpanRefClassNames();
   
 }
 
@@ -211,7 +206,7 @@ useEffect(()=>{
   return (
     <div>
    
-   {(testOver)? (<Stat WPM={calculateWPM()} accuracy={calculateAccuracy()} graphData={graphDatas} correctChars={correctChars} incorrectChars={incorrectChars} extraChars={extraChars} missedChars={missedChars}/>):
+   {(testOver)? (<Stat WPM={calculateWPM()} accuracy={calculateAccuracy()} graphData={graphDatas} correctChars={correctChars} incorrectChars={incorrectChars} extraChars={extraChars} missedChars={missedChars} retest={resetTest}/>):
     (<>
      <UpperMenu countDown={countDown}/>
     <div className="type-box" onClick={foucusInput}>

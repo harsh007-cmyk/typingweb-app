@@ -1,7 +1,8 @@
 import React from 'react'
 import Graph from './Graph'
-
-function Stat({WPM,accuracy,graphData,correctChars,incorrectChars,extraChars,missedChars}) {
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import {db} from '../firebaseConfig';
+function Stat({WPM,accuracy,graphData,correctChars,incorrectChars,extraChars,missedChars,retest}) {
   var timeSet=new Set();
 
   const newGraph=graphData.filter((i)=>{
@@ -10,15 +11,21 @@ function Stat({WPM,accuracy,graphData,correctChars,incorrectChars,extraChars,mis
       return i;
     }
   })
+  const pushResultsToDB=async()=>{
+    const resultRef=db.collection('Results');
+  }
   return (
     <div className="stat-box">
     <div className='left-stat'>
+        <div className="stats">
         <div className="title">WPM</div>
         <div className="subtitle">{WPM}</div>
         <div className="title">Accuracy</div>
         <div className="subtitle">{accuracy}%</div>
         <div className="title">Character</div>
         <div className="subtitle">{correctChars}/{incorrectChars}/{missedChars}/{extraChars}</div>
+        </div>
+        <RestartAltIcon onClick={retest}/>
     </div>
     <div className="right-stats">
         <Graph graphData={newGraph}/>
