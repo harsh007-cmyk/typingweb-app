@@ -1,8 +1,9 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import Graph from './Graph'
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import {db} from '../firebaseConfig';
+import {db,auth} from '../firebaseConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useAlert } from '../Context/AlertContext';
 function Stat({WPM,accuracy,graphData,correctChars,incorrectChars,extraChars,missedChars,retest}) {
   var timeSet=new Set();
   const [user]=useAuthState(auth);
@@ -15,6 +16,7 @@ function Stat({WPM,accuracy,graphData,correctChars,incorrectChars,extraChars,mis
   })
   const pushResultsToDB=async()=>{
     const resultRef=db.collection('Results');
+    const{uid}=auth.currentUser;
     if(!isNaN(accuracy)){
       await resultRef.add({userId:uid,wpm:WPM,accuracy:accuracy,character:`${correctChars}/${missedChars}/${extraChars}`,timeStamp:new Date()}).then(
         (res)=>{
