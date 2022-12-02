@@ -2,9 +2,11 @@ import React from 'react'
 import Graph from './Graph'
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import {db} from '../firebaseConfig';
+import { useAuthState } from 'react-firebase-hooks/auth';
 function Stat({WPM,accuracy,graphData,correctChars,incorrectChars,extraChars,missedChars,retest}) {
   var timeSet=new Set();
-
+  const [user]=useAuthState(auth);
+  const{setAlert}=useAlert();
   const newGraph=graphData.filter((i)=>{
     if(!timeSet.has(i[0])){
       timeSet.add(i[0]);
@@ -13,7 +15,33 @@ function Stat({WPM,accuracy,graphData,correctChars,incorrectChars,extraChars,mis
   })
   const pushResultsToDB=async()=>{
     const resultRef=db.collection('Results');
+    if(!isNaN(accuracy)){
+      await resultRef.add({userId:uid,wpm:WPM,accuracy:accuracy,character:`${correctChars}/${missedChars}/${extraChars}`,timeStamp:new Date()}).then(
+        (res)=>{
+         setAlert({open:true,type:'success',message:'result saved to database'});
+        }
+      );
+     
+    }else{
+      setAlert({
+        open: true,
+        type: 'error',
+        message: 'invalid test'
+      })
+    }
   }
+  useEffect(()=>{
+    if(user){
+      pushResultsToDB();
+    }
+    else{
+      setAlert({
+        open: true,
+        type: 'warning',
+        message: 'login to save results!'
+      });
+    }
+  },[]);
   return (
     <div className="stat-box">
     <div className='left-stat'>
