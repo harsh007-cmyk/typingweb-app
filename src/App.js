@@ -17,12 +17,14 @@ function App() {
   const {theme}=useTheme();   
   return (
     <>
-    <ThemeProvider theme={useTheme()}></ThemeProvider>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles/>
     <Alert/>
     <Routes>
        <Route path='/' element={<HomePage/>}></Route>
       <Route path='/user' element={<UserPage/>}></Route>
     </Routes>
+    </ThemeProvider>
     </>
   );
 }
