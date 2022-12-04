@@ -11,10 +11,16 @@ function Footer() {
    }
   return (
     <div className='footer'>
-        <div className="footer-links">
-            Links
+        <div className="instructions">
+            <div className="hint">
+                press <kbd>Tab</kbd> to open commands
+            </div>
         </div>
-        <div className="theme-options">
+        <div className="actual-footer">
+            <div className="footer-links">
+                Links
+            </div>
+            <div className="theme-options">
             <Select options={themeOptions} menuPlacement='top' onChange={handleChange} defaultValue={{value:defaultTheme.value,label:defaultTheme.label}}
             styles={
                 {
@@ -23,6 +29,8 @@ function Footer() {
                 }
             }
             />
+            </div>
+            
         </div>
     </div>
   )

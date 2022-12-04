@@ -56,7 +56,7 @@ function Stat({WPM,accuracy,graphData,correctChars,incorrectChars,extraChars,mis
         <div className="title">Character</div>
         <div className="subtitle">{correctChars}/{incorrectChars}/{missedChars}/{extraChars}</div>
         </div>
-        <RestartAltIcon onClick={retest}/>
+        <RestartAltIcon onClick={retest} className='reset-button'/>
     </div>
     <div className="right-stats">
         <Graph graphData={newGraph}/>  

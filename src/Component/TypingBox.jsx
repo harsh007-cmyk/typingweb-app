@@ -1,8 +1,10 @@
 import UpperMenu from './UpperMenu';
-import React,{createRef, useEffect,useMemo,useState} from 'react'
+import { Dialog, DialogTitle } from '@material-ui/core';
+import React,{createRef, useEffect,useMemo,useState} from 'react';
 import { useRef } from 'react';
 import { useTestMode } from '../Context/TestMode';
 import Stat from './Stat';
+import { useAlert } from '../Context/AlertContext';
 var randomwords=require('random-words');
 function TypingBox() {
   const inputTextRef=useRef(null);
@@ -10,18 +12,29 @@ function TypingBox() {
   const [currentCharIndex,setCurrentCharIndex]=useState(0);
   const [correctChars,setCorrectChars]=useState(0);
   const [correctWords,setCorrectWords]=useState(0);
-  let [countDown,setCountDown]=useState(15);
+  const {testTime,testMode,testWords}=useTestMode();
+  const [countDown, setCountDown] = useState(()=>{
+    if(testMode==='words'){
+        return 180;
+    }
+    else{
+        return testTime;
+    }
+});
   const [testStart, setTestStart] = useState(false);
    const [incorrectChars, setincorrectChars] = useState(0);
   const [extraChars, setExtraChars] = useState(0);
   const [missedChars, setMissedChars] = useState(0);
   const [testOver,setTestOver]=useState(false);
-  const {testTime}=useTestMode();
   const[intervalId,setIntervalId]=useState(null);
   const [graphDatas,setGraphData]=useState([]);
-  
+
+  const [openDialog,setOpenDialogue]=useState(false);
 
   const [wordsArray,setWordArray]=useState(()=>{
+    if(testMode==='words'){     
+      return randomwords(testWords);
+    }
     return randomwords(100);
   })
 
@@ -45,7 +58,24 @@ function TypingBox() {
     wordSpanRef[0].current.childNodes[0].className='char current';
   }  
   
- 
+ const handleDialogEvents=(e)=>{
+  if(e.keyCode===32){
+    e.preventDefault();
+    resetTest();
+    setOpenDialogue(false);
+    return;
+    
+  }
+  if(e.keyCode===9||e.keyCode===13){
+    e.preventDefault();
+    resetTest();
+    setOpenDialogue(false);
+    return;
+  }
+  e.preventDefault();
+  setOpenDialogue(false);
+  typingTimer();
+ }
 
   const typingTimer=()=>{
     const intervalId=setInterval(timer,1000);
@@ -54,7 +84,8 @@ function TypingBox() {
       setCountDown(countDown=>{
         setCorrectChars((correctChars)=>{
           setGraphData((data)=>{
-            return [...data,[testTime-countDown,Math.round((correctChars/5))/(testTime-countDown+1)/60]]
+            const startTime=(testMode==='words')?180:testTime;
+            return [...data,[startTime-countDown,Math.round((correctChars/5))/(testTime-countDown+1)/60]]
           })
           return correctChars;
         })
@@ -73,6 +104,15 @@ function TypingBox() {
 
   const handleKeyDown=(e)=>{
     
+    if(e.keyCode==9){
+      if(testStart){
+        clearInterval(intervalId);
+      }
+      e.preventDefault();
+      setOpenDialogue(true);
+      return;
+    }
+    
       if(!testStart){
         typingTimer();
         setTestStart(true);
@@ -82,7 +122,11 @@ function TypingBox() {
     
 
       if(e.keyCode===32){    
-        
+        if(currentwordIndex===wordsArray.length-1){
+           clearInterval(intervalId);
+           setTestOver(true);
+           return;
+        }
         const correctChars=wordSpanRef[currentwordIndex].current.querySelectorAll('.correct');
         const incorrectChars=wordSpanRef[currentwordIndex].current.querySelectorAll('.not_correct');
         setMissedChars(missedChars+(allChildrenSpans.length-(correctChars.length+incorrectChars.length)));
@@ -160,14 +204,16 @@ function TypingBox() {
 
 
 const calculateAccuracy=()=>{
-  
+  console.log(currentwordIndex,correctWords);
   console.log((correctWords/currentwordIndex)*100);
+
     let acc=(correctWords/currentwordIndex)*100;
-   return acc;
+   return Math.round(acc);
 }
 
 const calculateWPM=()=>{
-  return Math.round((correctChars/5)/(testTime/60));
+  const gdata=(graphDatas[graphDatas.length-1][0]+1)/60;
+  return Math.round((correctChars/5)/gdata);
 }
   
 
@@ -179,7 +225,7 @@ useEffect(() => {
   resetTest();
 
 
-}, [testTime]);
+}, [testTime,testMode,testWords]);   
 
 
 const resetTest=()=>{
@@ -189,8 +235,19 @@ const resetTest=()=>{
   setTestOver(false);
   clearInterval(intervalId);
   setCountDown(testTime);
-  let random=randomwords(100);
-  setWordArray(random);
+  if(testMode==='words'){
+    let random=randomwords(testWords);
+    setWordArray(random);
+    setCountDown(180);
+  }else{
+    let random=randomwords(100);
+    setWordArray(random);
+  }
+  setGraphData([]);
+  setCorrectChars(0);
+  setincorrectChars(0);
+  setMissedChars(0);
+  setExtraChars(0);
   resetWordSpanRefClassNames();
   
 }
@@ -208,7 +265,7 @@ useEffect(()=>{
    
    {(testOver)? (<Stat WPM={calculateWPM()} accuracy={calculateAccuracy()} graphData={graphDatas} correctChars={correctChars} incorrectChars={incorrectChars} extraChars={extraChars} missedChars={missedChars} retest={resetTest}/>):
     (<>
-     <UpperMenu countDown={countDown}/>
+     <UpperMenu countDown={countDown} currentwordIndex={currentwordIndex}/>
     <div className="type-box" onClick={foucusInput}>
     <div className="words">
        {words.map((word,index)=>(
@@ -227,6 +284,28 @@ useEffect(()=>{
     <input type="text" className='hidden-input' ref={inputTextRef}
       onKeyDown={((e)=>handleKeyDown(e))}
     />
+    <Dialog PaperProps={{
+      style:{
+        backgroundColor:'transparent',boxShadow:'none'
+      }
+    }}
+    open={openDialog}
+    onKeyDown={handleDialogEvents}
+    style={{backdropFilter:'blur(2px)'}}
+    >
+        <DialogTitle>
+      <div className="instruction">
+        press Space to redo
+      </div>
+      <div className="instruction">
+        Press Tab/Enter to restart
+      </div>
+      <div className="instruction">
+        Press any other key to exit
+      </div>
+    </DialogTitle>
+    </Dialog>
+    
    </div>
   )
 }

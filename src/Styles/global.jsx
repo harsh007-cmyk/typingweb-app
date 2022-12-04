@@ -11,7 +11,10 @@ export const GlobalStyles=createGlobalStyle`
         padding:0;
         margin:0;
         transition:all 0.25s linear;
-        
+        overflow-y:scroll;
+    }
+    body::webkit-scrollbar{
+        diaply:none;
     }
     .canvas{
         display:grid;
@@ -24,7 +27,7 @@ export const GlobalStyles=createGlobalStyle`
         align-items:center;
     }
     .type-box{
-        background-color:black;
+        background-color:${({theme})=>theme.background};
         display:block;
         max-width:1000px;
         height:150px;
@@ -94,22 +97,25 @@ export const GlobalStyles=createGlobalStyle`
         color: ${({theme})=> theme.typeBoxText}
 
     }
-    .time-modes{
+    .time-modes, .word-mode{
         display:flex;
 
     }
     .counter{
         cursor:none;
     }
-    .time{
+    .time, .no-of-words{
         margin-right:15px;
     }
 
-    .time:hover{
+    .time:hover, .no-of-words:hover{
         color: ${({theme})=> theme.title};
         cursor:pointer;
     }
-    
+    .mode:hover{
+        color:${({theme})=>theme.title};
+        cursor:pointer;   
+    }
     .stat-box{
         display:flex;
         max-width:1000px;
@@ -145,5 +151,99 @@ export const GlobalStyles=createGlobalStyle`
     .header{
         display:flex;
         justify-content:space-around;
+    }
+    .result-graph .table{
+        width:1000px;
+        margin:auto;
+    }
+    .user-profile{
+        width:1000px;
+        margin:auto;
+        display:flex;
+        main-height:15rem;
+        background:${({theme})=>theme.typeBoxText};
+        border-radius:20px;
+    }
+    .users-profie{
+        width:1000px;
+        margin:auto;
+    }
+    .result-graph{
+        width: 1000px;
+        margin: auto;
+    }
+    .user{
+        display:flex;
+        width: 50%;
+        justify-content: center;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        padding: 1rem;
+        border-right: 2px solid;
+    }
+    .users-profile{
+        width:700px;
+        margin:auto;
+        display: flex;
+        min-height: 15rem;
+        background: ${({theme})=> theme.typeBoxText};
+        border-radius: 20px;
+    }
+    .user-picture{
+        width:50%;
+    }
+    .userifo{
+        width: 50%;
+        margin-top: 1rem;
+        font-size: 1.5rem;
+        text-align: center;
+        padding: 1rem;
+    }
+    .center-screen{
+        display:flex;
+        min-height:100vh;
+        justify-content:center;
+        align-items: center;
+        text-align: center;
+    }
+    .totaltimes{
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 3rem;
+    }
+    .footer{
+        display:flex,
+        flex-direction:column,
+        width:1000px;
+        margin-right:auto;
+        align-items:center;
+        height:60px;
+    }
+    .actual-footer{
+        display:flex;
+        justify-content:space-between;
+        width:1000px;
+    }
+    .hint{
+        kbd{
+            background-color: ${({theme})=>theme.title};
+            color: ${({theme})=>theme.background};
+            padding: 2.5px 5px;
+            border-radius: 3px;
+        }
+    }
+    .instructions{
+        color: ${({theme})=>theme.title}
+    }
+    .reset-button{
+        display: block;
+        margin: auto;
+        margin-top:3rem;
+        transform: scale(2);
+    }
+    .instruction{
+        color: ${({theme})=>theme.title} 
     }
 `

@@ -28,7 +28,8 @@ const useStyles = makeStyles(()=>({
 
 function AccountIcon() {
     const [open,setOpen]=useState(false);
-    const [value,setValue]=useState(0);
+    const [value,setValue]=useState(0);     
+    const {setAlert}=useAlert();
     const handleValueChange=(e,v)=>{
         console.log("harsh")
             setValue(v);
@@ -49,13 +50,21 @@ function AccountIcon() {
     }
 const Logout=()=>{
     auth.signOut().then((ok)=>{
-        alert('Logged Out')
+        setAlert({
+            open: true,
+            type: 'success',
+            message: 'logged out'
+        })
     }).catch((err)=>{
-        alert("Not able to logout");
+        setAlert({
+            open: true,
+            type: 'error',
+            message: 'not able to logout'
+        })
     })
 }
 
-    const {setAlert}=useAlert();
+    
     const {theme}=useTheme();
     const googleProvider=new GoogleAuthProvider();
     const signINWithgoogle=()=>{
@@ -84,8 +93,8 @@ const Logout=()=>{
             style={{backgroundColor:'transparent'}}
             >
                 <Tabs value={value} onChange={handleValueChange} variant='fullWidth'>
-                <Tab label='login' style={{color:theme.title}}></Tab>
-                <Tab label='signup' style={{color:theme.title}}></Tab>
+                <Tab label='login' indicatorColor="secondary" style={{color:theme.title}}></Tab>  
+                <Tab label='signup' style={{color:theme.title}}  indicatorColor="primary"></Tab>
 
                 </Tabs>
             </AppBar>

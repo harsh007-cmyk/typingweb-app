@@ -30,7 +30,7 @@ function Graph({graphData,type}) {
                 datasets:[{
                     data:graphData.map(i=>i[1]),
                     label:'wpm',
-                    borderColor:'gold'
+                    borderColor:theme.title
                 }]
             }
         }
