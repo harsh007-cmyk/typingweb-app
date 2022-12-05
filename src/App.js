@@ -10,6 +10,7 @@ import HomePage from './Pages/HomePage';
 import {Route,Routes} from 'react-router-dom';
 import UserPage from './Pages/UserPage';
 import Alert from './Component/Alert';
+import ComparePage from './Pages/ComparePage';
 // import { auth } from './firebaseConfig';
 
 
@@ -23,6 +24,7 @@ function App() {
     <Routes>
        <Route path='/' element={<HomePage/>}></Route>
       <Route path='/user' element={<UserPage/>}></Route>
+      <Route path='/compare/:username' element={<ComparePage/>}/>
     </Routes>
     </ThemeProvider>
     </>

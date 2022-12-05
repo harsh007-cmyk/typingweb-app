@@ -142,6 +142,11 @@ function TypingBox() {
         }else{
           allChildrenSpans[currentCharIndex].className=allChildrenSpans[currentCharIndex].className.replace('current','');
         }
+        wordSpanRef[currentwordIndex+1].current.childNodes[0].className='char current';
+        if(currentwordIndex!=0&&wordSpanRef[currentwordIndex+1].current.offsetLeft<wordSpanRef[currentwordIndex].current.offsetLeft){
+          wordSpanRef[currentCharIndex].current.scrollIntoView();
+        }
+
         setCurrentwordIndex(currentwordIndex+1);
         setCurrentCharIndex(0);
         return ;

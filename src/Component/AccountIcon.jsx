@@ -5,7 +5,7 @@ import { makeStyles } from '@mui/styles';
 import LoginForm from './LoginForm';
 import SignUP from './SignUP';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { auth } from '../firebaseConfig';
+import { auth ,db} from '../firebaseConfig';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {useNavigate} from 'react-router-dom';
 import GoogleButton from 'react-google-button';
@@ -68,17 +68,22 @@ const Logout=()=>{
     const {theme}=useTheme();
     const googleProvider=new GoogleAuthProvider();
     const signINWithgoogle=()=>{
-                signInWithPopup(auth,googleProvider).then((res)=>{
-                    setAlert({
-                        open: true,
-                        type: 'success',
-                        message: 'Logged in'
-                    });
-                    handleClose();
-                }).catch((err)=>{
+                signInWithPopup(auth,googleProvider).then(async(res)=>{
+                    const username=res.user.email.split('@')[0];
+                    const ref=await db.collection('usernames').doc(username).set({
+                        uid:res.user.id
+                    }).then((response)=>{
+                        setAlert({
+                            open: true,
+                            type: 'success',
+                            message: 'Logged in'
+                        });
+                        handleClose();
+                    }).catch((err)=>{
                     setAlert({open:true,type:err,message:'not able to use google authentication'})
                 })
-    }
+    })
+}
   return (
     <div>
         <SupervisorAccountIcon onClick={handleAccountClick}/>
@@ -113,6 +118,6 @@ const Logout=()=>{
         </Modal>
     </div>
   )
-}
+}   
 
 export default AccountIcon

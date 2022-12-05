@@ -246,4 +246,14 @@ export const GlobalStyles=createGlobalStyle`
     .instruction{
         color: ${({theme})=>theme.title} 
     }
+    .compareButton{
+        margin-left:5rem;
+    }
+    .logo{
+        display:flex;
+        img{
+            width:10rem;
+            border-radius:50%
+        }
+    }
 `
