@@ -1,16 +1,19 @@
 import React from 'react'
 import AccountIcon from './AccountIcon'
 import CompareBtn from './CompareBtn'
+import KeyboardIcon from '@mui/icons-material/Keyboard';
 function Header() {
   return (
     <div className="header">
         <div className="logo" style={{display:'flex'}}>
-            <span style={{display:'block',marginRigth:'6px'}}>
-              TypeMaster
+           <div className="logoicon">
+           <span style={{display:'block',marginRigth:'6px'}}>
+            <KeyboardIcon/> TypeMaster 
             </span>
-            <CompareBtn/>
+           </div>
+            <CompareBtn/>  
         </div>
-        <div className="icons">
+        <div className="icons">   
         <AccountIcon/>
         </div>
     </div>

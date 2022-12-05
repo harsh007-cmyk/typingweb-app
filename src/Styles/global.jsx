@@ -94,7 +94,7 @@ export const GlobalStyles=createGlobalStyle`
         justify-content: space-between;
         font-size: 20px;
         padding:1rem;
-        color: ${({theme})=> theme.typeBoxText}
+        color: ${({theme})=> theme.typeBoxText};
 
     }
     .time-modes, .word-mode{
@@ -235,7 +235,7 @@ export const GlobalStyles=createGlobalStyle`
         }
     }
     .instructions{
-        color: ${({theme})=>theme.title}
+        color: ${({theme})=>theme.title};
     }
     .reset-button{
         display: block;
@@ -244,7 +244,7 @@ export const GlobalStyles=createGlobalStyle`
         transform: scale(2);
     }
     .instruction{
-        color: ${({theme})=>theme.title} 
+        color: ${({theme})=>theme.title};
     }
     .compareButton{
         margin-left:5rem;
@@ -258,5 +258,15 @@ export const GlobalStyles=createGlobalStyle`
     }
     a{
         text-decoration:none;
+    }
+    .logoicon{
+        background-color:${({theme})=>theme.title};
+        color: ${({theme})=>theme.background};       
+        width:8rem;
+        text-align:center;
+        border-radius:30%;
+        font-weight:700;
+        font-family: "Comic Sans MS", "Comic Sans"; 
+        cursor:pointer; 
     }
 `
