@@ -256,4 +256,7 @@ export const GlobalStyles=createGlobalStyle`
             border-radius:50%
         }
     }
+    a{
+        text-decoration:none;
+    }
 `

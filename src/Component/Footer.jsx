@@ -2,6 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import { themeOptions } from '../Styles/them';
 import {useTheme} from '../Context/ThemeContext';
+import GitHubIcon from '@mui/icons-material/GitHub';   
 function Footer() {
     const {theme,setTheme,defaultTheme} = useTheme();
 
@@ -18,14 +19,14 @@ function Footer() {
         </div>
         <div className="actual-footer">
             <div className="footer-links">
-                Links
+               <a href="https://github.com/harsh007-cmyk/typingweb-app"><GitHubIcon color='secondary'/></a>
             </div>
             <div className="theme-options">
             <Select options={themeOptions} menuPlacement='top' onChange={handleChange} defaultValue={{value:defaultTheme.value,label:defaultTheme.label}}
             styles={
                 {
                     control:(styles)=>({...styles,backgroundColor:theme.background}),
-                    menu:(styles)=>({...styles,backgroundColor:theme.background})
+                    menu:(styles)=>({...styles,backgroundColor:theme.background})  
                 }
             }
             />
