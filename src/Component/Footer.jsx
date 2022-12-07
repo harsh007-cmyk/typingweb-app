@@ -25,8 +25,8 @@ function Footer() {
             <Select options={themeOptions} menuPlacement='top' onChange={handleChange} defaultValue={{value:defaultTheme.value,label:defaultTheme.label}}
             styles={
                 {
-                    control:(styles)=>({...styles,backgroundColor:theme.background}),
-                    menu:(styles)=>({...styles,backgroundColor:theme.background})  
+                    control:(styles)=>({...styles,backgroundColor:theme.background,border:'none',cursor:'pointer'}),
+                    menu:(styles)=>({...styles,minWidth:'150px',backgroundColor:theme.background,cursor:'pointer'})  
                 }
             }
             />
@@ -37,4 +37,4 @@ function Footer() {
   )
 }
 
-export default Footer
+export default Footer    

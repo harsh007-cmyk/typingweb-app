@@ -30,16 +30,22 @@ function AccountIcon() {
     const [open,setOpen]=useState(false);
     const [value,setValue]=useState(0);     
     const {setAlert}=useAlert();
+   
+   
     const handleValueChange=(e,v)=>{
         console.log("harsh")
             setValue(v);
     }
+   
     const handleClose=()=>{
         setOpen(false);
     }
+   
     const classes = useStyles();
     const [user] = useAuthState(auth);
     const navigate=useNavigate();
+   
+   
     const handleAccountClick=()=>{
         if(user){
             navigate('/user');
@@ -48,21 +54,23 @@ function AccountIcon() {
             setOpen(true);
         }
     }
-const Logout=()=>{
-    auth.signOut().then((ok)=>{
-        setAlert({
-            open: true,
-            type: 'success',
-            message: 'logged out'
+   
+   
+    const Logout=()=>{
+        auth.signOut().then((ok)=>{
+            setAlert({
+                open: true,
+                type: 'success',
+                message: 'logged out'
+            })
+         }).catch((err)=>{
+                setAlert({
+                open: true,
+                type: 'error',
+                message: 'not able to logout'
+            })
         })
-    }).catch((err)=>{
-        setAlert({
-            open: true,
-            type: 'error',
-            message: 'not able to logout'
-        })
-    })
-}
+    }
 
     
     const {theme}=useTheme();
