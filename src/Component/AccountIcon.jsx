@@ -25,7 +25,7 @@ const useStyles = makeStyles(()=>({
         border: '1px solid'
     }
 }))
-
+console.log(auth);
 function AccountIcon() {
     const [open,setOpen]=useState(false);
     const [value,setValue]=useState(0);     
@@ -81,12 +81,14 @@ function AccountIcon() {
                     const ref=await db.collection('usernames').doc(username).set({
                         uid:res.user.id
                     }).then((response)=>{
+                        console.log("harsh");
+                        handleClose();
                         setAlert({
                             open: true,
                             type: 'success',
                             message: 'Logged in'
                         });
-                        handleClose();
+                        
                     }).catch((err)=>{
                     setAlert({open:true,type:err,message:'not able to use google authentication'})
                 })

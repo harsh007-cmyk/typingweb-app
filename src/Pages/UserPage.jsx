@@ -14,13 +14,15 @@ function UserPage() {
  const[data,setData]=useState([]);
  const[graphData,setGraphData]=useState([]);
  const[user,loading]=useAuthState(auth);
+ console.log(loading,"loading");
  const fetchUserData=()=>{
   const resRef=db.collection('Results');
   console.log(resRef);
   let tempData = [];
   let tempGraphData = [];
   const {uid} = auth.currentUser;
-  resRef.where('userId','==',uid).orderBy('timeStamp','desc').get().then((snapshot)=>{    
+  resRef.where('userId','==',uid).orderBy('timeStamp','desc').get().then((snapshot)=>{   
+    console.log(snapshot,'snapshot'); 
     snapshot.docs.forEach((doc)=>{
         tempData.push({...doc.data()});
         tempGraphData.push([doc.data().timeStamp,doc.data().wpm]);
@@ -87,9 +89,6 @@ if(loading||dataLoading){
                             Accuracy
                         </TableCell>
                         <TableCell  style={{color: theme.title, textAlign: 'center'}}>
-                            Characters   
-                        </TableCell>
-                        <TableCell  style={{color: theme.title, textAlign: 'center'}}>
                             Date
                         </TableCell>
                     </TableRow>
@@ -103,9 +102,7 @@ if(loading||dataLoading){
                             <TableCell style={{color: theme.title, textAlign: 'center'}}>
                                 {i.accuracy}
                             </TableCell>
-                            <TableCell style={{color: theme.title, textAlign: 'center'}}>
-                                {i.characters}
-                            </TableCell>
+                            
                             <TableCell style={{color: theme.title, textAlign: 'center'}}>
                                 {i.timeStamp.toDate().toString()}
                             </TableCell>

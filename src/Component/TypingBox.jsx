@@ -22,7 +22,7 @@ function TypingBox() {
     }
 });
   const [testStart, setTestStart] = useState(false);
-   const [incorrectChars, setincorrectChars] = useState(0);
+  const [incorrectChars, setincorrectChars] = useState(0);
   const [extraChars, setExtraChars] = useState(0);
   const [missedChars, setMissedChars] = useState(0);
   const [testOver,setTestOver]=useState(false);
@@ -61,7 +61,7 @@ function TypingBox() {
  const handleDialogEvents=(e)=>{
   if(e.keyCode===32){
     e.preventDefault();
-    resetTest();
+    redogame();
     setOpenDialogue(false);
     return;
     
@@ -75,6 +75,18 @@ function TypingBox() {
   e.preventDefault();
   setOpenDialogue(false);
   typingTimer();
+ }
+ const redogame=()=>{
+  setCurrentCharIndex(0);
+  setCurrentwordIndex(0);
+  setTestStart(false);
+  setTestOver(false);
+  clearInterval(intervalId);
+  setCountDown(testTime);
+  if(testMode==='words'){
+    setCountDown(180);
+  }
+  resetWordSpanRefClassNames();
  }
 
   const typingTimer=()=>{
@@ -120,7 +132,7 @@ function TypingBox() {
       
       let allChildrenSpans=wordSpanRef[currentwordIndex].current.querySelectorAll('span');
     
-
+      console.log()
       if(e.keyCode===32){    
         if(currentwordIndex===wordsArray.length-1){
            clearInterval(intervalId);

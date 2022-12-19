@@ -8,11 +8,23 @@ function ComparePage() {
     const[compareUserDAta,setCompareUserData]=useState([]);
     const[loggedInGraphUserData,setLoggedInUserDta]=useState([]);
     const [compareUserGraphData,setCompareUserGraphData]=useState([]);
+    
+
+    
+    const getUID=async()=>{
+        const ref=db.collection('usernames').doc(`${username}`);
+        
+        console.log(username,"UserName");
+        const res=await ref.get();
+        return res.data().uid;
+    }
+
 
 
     const getData = async()=>{
-    
+        
         const userUID = await getUID();
+        console.log(userUID);
         const {uid} = auth.currentUser;
         const resultRef = db.collection('Results');
         let tempData = [];
@@ -28,12 +40,8 @@ function ComparePage() {
         });
 
 
-    const getUID=async()=>{
-        const ref=db.collection('usernames').doc(`${username}`);
-        const res=await ref.get();
-        return res.data().uid;
-    }
     let tempData1 = [];
+    console.log(tempData1,'temp');
     let tempGraphData1 = [];
     resultRef.where('userId','==',userUID).orderBy('timeStamp','desc').get().then((snapshot)=>{
         snapshot.docs.forEach((doc)=>{
@@ -43,7 +51,9 @@ function ComparePage() {
             setCompareUserGraphData(tempGraphData1);
         });
     });
+  
 }
+
 
 useEffect(()=>{
     getData();

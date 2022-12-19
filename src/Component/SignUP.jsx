@@ -19,6 +19,8 @@ function SignUP({handleClose}) {
         return !response.exists;
     }
 
+
+    
     const handleSubmit=async()=>{
         if(!email || !password || !confirmPassword){
             setAlert({
@@ -36,7 +38,7 @@ function SignUP({handleClose}) {
             });
             return;
         }
-
+    
 
         if(await checkUserandNameAvailability()){
             auth.createUserWithEmailAndPassword(email,password).then(
@@ -155,26 +157,7 @@ function SignUP({handleClose}) {
         onChange={(e)=>setConfirmPassword(e.target.value)}>
 
     </TextField>
-    <TextField
-            variant='outlined'
-            type='password'
-            label='Confirm password'
-            onChange={(e)=>setConfirmPassword(e.target.value)}
-            InputLabelProps={
-                {
-                    style:{
-                        color: theme.title
-                    }
-                }
-            }
-            InputProps={{
-                style:{
-                    color: theme.title
-                }
-            }}
-            >
-
-    </TextField>
+   
     <Button
     variant='contained'
     size='large'

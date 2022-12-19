@@ -19,9 +19,14 @@ function Stat({WPM,accuracy,graphData,correctChars,incorrectChars,extraChars,mis
     console.log(resultRef,'resultRef');
     const {uid}=auth.currentUser;  
     if(!isNaN(accuracy)){
-      await resultRef.add({userId:uid,wpm:WPM,accuracy:accuracy,character:`${correctChars}/${missedChars}/${extraChars}`,timeStamp:new Date()}).then(
+      await resultRef.add({
+        userId:uid,
+        wpm:WPM,
+        accuracy:accuracy,
+        character:`${correctChars}/${missedChars}/${extraChars}`,
+        timeStamp:new Date()}).then(
         (res)=>{
-         setAlert({open:true,type:'success',message:'result saved to database'});
+         setAlert({open:true,type:'success',message:'result saved'});
         }
       );
      
